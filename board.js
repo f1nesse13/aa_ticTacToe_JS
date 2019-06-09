@@ -1,8 +1,8 @@
 class Board {
   constructor() {
-    this.board = [["X","O","X"],
-                  ["O","X","X"],
-                  ["X","X","O"]]
+    this.board = [[" "," "," "],
+                  [" "," "," "],
+                  [" "," "," "]]
   }
 
   print() {
@@ -31,7 +31,6 @@ class Board {
       this.board[pos[0]][pos[1]] = mark
       return true;
     } else {
-      console.log("Position filled")
       return false;
     }
   }
@@ -42,30 +41,43 @@ class Board {
       if (el.every((pos, i, el) => {
         return this.board[pos[0]][pos[1]] === "X"
       })) {
-        console.log("X has won!")
-        winner = true;
+        winner = "X";
       }
 
       if (el.every((pos, i, el) => {
         return this.board[pos[0]][pos[1]] === "O"
       })) {
         console.log("O has won!")
-        winner = true;
+        winner = "O";
       }
     })
 
     if (this.checkEmpty()) {
       console.log("No winner!")
-      winner = true;
+      winner = "None";
     }
-    // patch until tomorrow
-    if(winner === true) {
+    if(winner != false) {
+      return winner;
+    } else {
+      return false;
+    }
+  }
+
+  winner() {
+    let checkWinner = this.won()
+    if (checkWinner === "X"){
+      console.log("Winner is X!!")
       return true;
+    }else if (checkWinner === "O"){
+      console.log("Winner is O!!")
+      return true;
+    }else if (checkWinner === "None") {
+      console.log("No available moves. Its a tie.")
+      return true
     } else {
       return false
     }
   }
-
   checkEmpty () {
     for(let i = 0; i < 3; i++){
       for(let j = 0; j < 3; j++){
@@ -88,6 +100,5 @@ Board.WINPOSITIONS = [
   [[0,0], [1,1], [2,2]],
   [[2,0], [1,1], [0,2]],
 ]
-a = new Board();
-a.print();
-a.won();
+
+module.exports = Board;
