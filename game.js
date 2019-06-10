@@ -1,15 +1,16 @@
 const Board = require('./board.js')
 
 class Game {
-  constructor() {
-    this.turn = "X"
+  constructor(player1, player2) {
+    this.player1 = player1
+    this.player2 = player2
+    this.turn = player1
     this.board = new Board();
   }
   
    
   
   getMove(reader, turn, callback) {
-    console.clear()
     this.board.print();
 
     reader.question(`${turn}'s turn. Pick a row? `, (moveX) => {
@@ -22,8 +23,12 @@ class Game {
     });
   }
 
+  intro() {
+    console.log(`\n\nIts time for the match up of the century! ${this.player1.getName()} is ready to take on ${this.player2.getName()}!! Standby for the most entertaining sport in all the world... TIC TAC TOE!! \n\n`)
+  }
+
   run(reader, completionCallback) {
-    let currentTurn = (this.turn === "O" ? "X" : "O")
+    let currentTurn = (this.turn === this.player1 ? "X" : "O")
     this.turn = currentTurn;
     this.getMove(reader, currentTurn, (pos) => { 
       if (!this.board.placeMark(pos, currentTurn)) {
